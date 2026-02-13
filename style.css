@@ -1,0 +1,140 @@
+/* --- VARIABLES & THEME --- */
+:root {
+    --bg-image: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1920&q=80');
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --text-color: #333;
+    --primary-color: #4facfe;
+    --secondary-color: #00f2fe;
+    --border-color: #ccc;
+    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+[data-theme="dark"] {
+    --bg-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80');
+    --glass-bg: rgba(16, 20, 25, 0.9);
+    --text-color: #f1f1f1;
+    --primary-color: #bb86fc;
+    --secondary-color: #3700b3;
+    --border-color: #555;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    transition: background-image 0.5s ease;
+}
+
+/* --- GLASS CONTAINER --- */
+.glass-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow);
+    padding: 30px;
+    width: 90%;
+    max-width: 550px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.header h1 { margin: 0; font-size: 1.8rem; background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header p { opacity: 0.7; margin-top: 5px; font-size: 0.9rem; }
+
+/* --- THEME TOGGLE --- */
+.theme-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--glass-bg);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    color: var(--text-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* --- DRAG & DROP UPLOAD --- */
+.upload-area { margin: 20px 0; }
+
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(0,0,0,0.02);
+}
+
+.upload-label:hover {
+    border-color: var(--primary-color);
+    background: rgba(79, 172, 254, 0.05);
+}
+
+.upload-label i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; }
+
+/* Jab file drag karke upar layenge tab ye class lagegi */
+.drag-over {
+    border-color: var(--primary-color) !important;
+    background-color: rgba(79, 172, 254, 0.15) !important;
+    transform: scale(1.02);
+    border-style: solid;
+}
+
+/* --- BUTTONS --- */
+.controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+button:hover { transform: translateY(-2px); }
+button:disabled { opacity: 0.6; cursor: wait; }
+
+.secondary-btn { background: #28a745 !important; } /* Green color */
+
+/* --- UTILS --- */
+.hidden { display: none !important; }
+
+#progress-container { margin-top: 20px; }
+.progress-bar-bg { width: 100%; background: #ddd; height: 8px; border-radius: 4px; overflow: hidden; }
+#progress-bar { height: 100%; background: var(--primary-color); width: 0%; transition: width 0.2s; }
+
+#preview-container { margin-top: 20px; text-align: left; }
+iframe { width: 100%; height: 350px; border: none; border-radius: 8px; background: white; }
+
+/* --- RESPONSIVE MOBILE VIEW --- */
+@media screen and (max-width: 600px) {
+    .glass-container { padding: 20px; width: 85%; margin-top: 50px; }
+    .header h1 { font-size: 1.5rem; }
+    
+    /* Upload box compact karein */
+    .upload-label { padding: 20px; }
+    .upload-label i { font-size: 2rem; }
+    
+    /* Buttons upar-neeche */
+    .controls { flex-direction: column; }
+    button { width: 100%; }
+    
+    iframe { height: 250px; }
+}
