@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro PDF Maker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <button id="theme-toggle" class="theme-btn" title="Switch Theme">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="glass-container">
+        <div class="header">
+            <h1><i class="fas fa-file-pdf"></i> PDF Maker</h1>
+            <p>Convert Images to PDF (Max 500)</p>
+        </div>
+
+        <div class="upload-area" id="drop-zone">
+            <input type="file" id="imageInput" multiple accept="image/*" hidden>
+            
+            <label for="imageInput" class="upload-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span id="drop-text">Click to Upload or Drag & Drop here</span>
+                <small id="file-count">Supports JPG, PNG, WEBP</small>
+            </label>
+        </div>
+
+        <div class="controls">
+            <button id="convertBtn" onclick="generatePDF()">
+                <i class="fas fa-magic"></i> Generate Preview
+            </button>
+            
+            <button id="downloadBtn" onclick="downloadPDF()" class="secondary-btn hidden">
+                <i class="fas fa-download"></i> Download PDF
+            </button>
+        </div>
+
+        <div id="progress-container" class="hidden">
+            <div class="progress-bar-bg">
+                <div id="progress-bar"></div>
+            </div>
+            <p id="status-text">Starting...</p>
+        </div>
+
+        <div id="preview-container" class="hidden">
+            <h3>Document Preview</h3>
+            <iframe id="pdf-preview"></iframe>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
