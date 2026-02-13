@@ -5,38 +5,31 @@ const fileCountLabel = document.getElementById('file-count');
 const dropText = document.getElementById('drop-text');
 const themeBtn = document.getElementById('theme-toggle');
 
-let globalPDFBlob = null; // To store generated PDF
+let globalPDFBlob = null; 
 
 // --- 1. DRAG & DROP LOGIC ---
-
-// (A) Jab file upar aaye (Visual change)
 dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
     dropZone.querySelector('.upload-label').classList.add('drag-over');
     dropText.innerText = "Drop Images Here";
 });
 
-// (B) Jab file hat jaye
 dropZone.addEventListener('dragleave', () => {
     dropZone.querySelector('.upload-label').classList.remove('drag-over');
     dropText.innerText = "Click to Upload or Drag & Drop here";
 });
 
-// (C) Jab file drop ho jaye (Main Logic)
 dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropZone.querySelector('.upload-label').classList.remove('drag-over');
     
-    // Files nikalo
     const files = e.dataTransfer.files;
     if (files.length > 0) {
-        // Input tag mein files set karo
         imageInput.files = files; 
         updateUI(files.length);
     }
 });
 
-// (D) Normal Click Upload
 imageInput.addEventListener('change', function() {
     updateUI(this.files.length);
 });
@@ -44,13 +37,13 @@ imageInput.addEventListener('change', function() {
 function updateUI(count) {
     if (count > 0) {
         dropText.innerText = `${count} Images Selected`;
-        fileCountLabel.innerText = "Ready to Generate Preview";
+        fileCountLabel.innerText = "Ready to Generate";
         fileCountLabel.style.color = "var(--primary-color)";
         fileCountLabel.style.fontWeight = "bold";
     }
 }
 
-// --- 2. THEME TOGGLE LOGIC ---
+// --- 2. THEME TOGGLE ---
 themeBtn.addEventListener('click', () => {
     const html = document.documentElement;
     const current = html.getAttribute('data-theme');
@@ -63,7 +56,7 @@ themeBtn.addEventListener('click', () => {
 async function generatePDF() {
     const files = imageInput.files;
     if (files.length === 0) {
-        alert("Please select or drop images first!");
+        alert("Please select images first!");
         return;
     }
 
@@ -80,29 +73,24 @@ async function generatePDF() {
     previewContainer.classList.add('hidden');
     progressContainer.classList.remove('hidden');
 
-    // jsPDF Init
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     const pageWidth = 210;
     const pageHeight = 297;
 
     for (let i = 0; i < files.length; i++) {
-        // Update Progress
         const percent = Math.round(((i + 1) / files.length) * 100);
         progressBar.style.width = percent + "%";
         statusText.innerText = `Processing Image ${i + 1} / ${files.length}`;
 
-        // Read & Add Image
         try {
             const imgData = await readFileAsDataURL(files[i]);
             const imgProps = await getImageProperties(imgData);
 
-            // Aspect Ratio Calculation
             const imgRatio = imgProps.width / imgProps.height;
-            let finalWidth = pageWidth - 20; // 10mm margins
+            let finalWidth = pageWidth - 20; 
             let finalHeight = finalWidth / imgRatio;
 
-            // Agar height page se badi ho jaye
             if (finalHeight > (pageHeight - 20)) {
                 finalHeight = pageHeight - 20;
                 finalWidth = finalHeight * imgRatio;
@@ -112,7 +100,7 @@ async function generatePDF() {
             doc.addImage(imgData, 'JPEG', 10, 10, finalWidth, finalHeight);
 
         } catch (err) {
-            console.error("Error processing image:", err);
+            console.error("Skipping error image:", err);
         }
     }
 
@@ -120,8 +108,16 @@ async function generatePDF() {
     statusText.innerText = "Finalizing Preview...";
     globalPDFBlob = doc.output('bloburl');
 
-    // Show Preview
-    document.getElementById('pdf-preview').src = globalPDFBlob;
+    // --- MOBILE PREVIEW FIX ---
+    // 1. Desktop ke liye Iframe set karo
+    const iframe = document.getElementById('pdf-preview-frame');
+    iframe.src = globalPDFBlob;
+
+    // 2. Mobile ke liye Button ka Link set karo
+    const mobileBtn = document.getElementById('mobile-preview-btn');
+    mobileBtn.href = globalPDFBlob;
+    
+    // UI Show
     previewContainer.classList.remove('hidden');
     downloadBtn.classList.remove('hidden');
 
