@@ -19,23 +19,42 @@
             <p>Convert Images to PDF (Max 500)</p>
         </div>
 
+        <div class="settings-box">
+            <div class="input-group">
+                <i class="fas fa-pen"></i>
+                <input type="text" id="fileNameInput" placeholder="Enter file name (e.g. My Notes)" autocomplete="off">
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-sliders-h"></i>
+                <select id="qualitySelect">
+                    <option value="0.9">High Quality (Original)</option>
+                    <option value="0.6" selected>Medium Quality (Recommended)</option>
+                    <option value="0.3">Low Quality (Small Size)</option>
+                </select>
+            </div>
+        </div>
+
         <div class="upload-area" id="drop-zone">
             <input type="file" id="imageInput" multiple accept="image/*" hidden>
-            
             <label for="imageInput" class="upload-label">
                 <i class="fas fa-cloud-upload-alt"></i>
-                <span id="drop-text">Click to Upload or Drag & Drop here</span>
+                <span id="drop-text">Click or Drop Images Here</span>
                 <small id="file-count">Supports JPG, PNG, WEBP</small>
             </label>
         </div>
 
         <div class="controls">
+            <button id="resetBtn" onclick="resetApp()" class="danger-btn" title="Clear All">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+
             <button id="convertBtn" onclick="generatePDF()">
-                <i class="fas fa-magic"></i> Generate Preview
+                <i class="fas fa-magic"></i> Generate PDF
             </button>
             
             <button id="downloadBtn" onclick="downloadPDF()" class="secondary-btn hidden">
-                <i class="fas fa-download"></i> Download PDF
+                <i class="fas fa-download"></i> Save PDF
             </button>
         </div>
 
@@ -47,10 +66,8 @@
         </div>
 
         <div id="preview-container" class="hidden">
-            <h3>Document Preview</h3>
-            
+            <h3>Preview</h3>
             <iframe id="pdf-preview-frame"></iframe>
-            
             <a id="mobile-preview-btn" target="_blank" class="hidden">
                 <i class="fas fa-external-link-alt"></i> Tap to View Full PDF
             </a>
