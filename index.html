@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <button id="theme-toggle" class="theme-btn" title="Switch Theme">
+    <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()">
         <i class="fas fa-moon"></i>
     </button>
 
@@ -36,7 +36,7 @@
         </div>
 
         <div class="upload-area" id="drop-zone">
-            <input type="file" id="imageInput" multiple accept="image/*" hidden>
+            <input type="file" id="imageInput" multiple accept="image/*" hidden onchange="handleFileSelect(this)">
             <label for="imageInput" class="upload-label">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <span id="drop-text">Click or Drop Images Here</span>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="controls">
-            <button id="resetBtn" onclick="resetApp()" class="danger-btn" title="Clear All">
+            <button id="resetBtn" onclick="resetApp()" class="danger-btn" title="Delete All">
                 <i class="fas fa-trash-alt"></i>
             </button>
 
